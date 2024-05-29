@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { reactive, ref, watch } from "vue"
 import { getTranslateDataApi,deleteTranslateDataApi } from "@/api/translate"
-import { type GetTranslateData } from "@/api/table/types/translate"
+import { type GetTranslateData } from "@/api/translate/types/translate"
 import { type FormInstance, type FormRules, ElMessage, ElMessageBox } from "element-plus"
 import { Search, Refresh, CirclePlus, Delete, Download, RefreshRight } from "@element-plus/icons-vue"
 import { usePagination } from "@/hooks/usePagination"

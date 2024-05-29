@@ -53,7 +53,7 @@ const resetForm = () => {
 //#endregion
 
 //#region 删
-const handleStatus = (id:int, status:string) => {
+const handleStatus = (id:number, status:string) => {
   changeCustomerStatusApi(id, status).then(() => {
     ElMessage.success("更改状态成功")
     getCustomerData()

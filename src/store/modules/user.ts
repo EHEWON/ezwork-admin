@@ -26,7 +26,7 @@ export const useUserStore = defineStore("user", () => {
   /** 获取用户详情 */
   const getInfo = async () => {
     const { data } = await getUserInfoApi()
-    username.value = data.username
+    // username.value = data.username
     // 验证返回的 roles 是否为一个非空数组，否则塞入一个没有任何作用的默认角色，防止路由守卫逻辑进入无限循环
     roles.value = data.roles?.length > 0 ? data.roles : routeSettings.defaultRoles
   }

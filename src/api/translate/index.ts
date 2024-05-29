@@ -1,5 +1,5 @@
 import { request } from "@/utils/service"
-import type * as Translate from "./types/tranlate"
+import type * as Translate from "./types/translate"
 
 
 /** 列表 */
@@ -11,7 +11,7 @@ export function getTranslateDataApi(params: Translate.GetTranslateRequestData) {
   })
 }
 
-export function deleteTranslateDataApi(id:int){
+export function deleteTranslateDataApi(id:number){
   return request<Translate.TranslateNoResponseData>({
     url:`/translate/${id}`,
     method:'delete',

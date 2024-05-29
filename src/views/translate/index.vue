@@ -1,12 +1,12 @@
 <script lang="ts" setup>
 import { reactive, ref, watch } from "vue"
-import { getTranslateDataApi } from "@/api/translate"
+import { getTranslateDataApi,deleteTranslateDataApi } from "@/api/translate"
 import { type GetTranslateData } from "@/api/table/types/translate"
 import { type FormInstance, type FormRules, ElMessage, ElMessageBox } from "element-plus"
 import { Search, Refresh, CirclePlus, Delete, Download, RefreshRight } from "@element-plus/icons-vue"
 import { usePagination } from "@/hooks/usePagination"
 import { cloneDeep } from "lodash-es"
-
+const BASE_URL=import.meta.env.VITE_BASE_API
 defineOptions({
   // 命名当前组件
   name: "Translate"
@@ -17,12 +17,12 @@ const { paginationData, handleCurrentChange, handleSizeChange } = usePagination(
 
 //#region 删
 const handleDelete = (row: GetTranslateData) => {
-  ElMessageBox.confirm(`正在删除用户：${row.username}，确认删除？`, "提示", {
+  ElMessageBox.confirm(`正在删除用户：${row.translate_no}，确认删除？`, "提示", {
     confirmButtonText: "确定",
     cancelButtonText: "取消",
     type: "warning"
   }).then(() => {
-    deleteTableDataApi(row.id).then(() => {
+    deleteTranslateDataApi(row.id).then(() => {
       ElMessage.success("删除成功")
       getTableData()
     })
@@ -34,19 +34,18 @@ const handleDelete = (row: GetTranslateData) => {
 const translateData = ref<GetTranslateData[]>([])
 const searchFormRef = ref<FormInstance | null>(null)
 const searchData = reactive({
-  username: "",
-  phone: ""
+  keyword: "",
 })
 const getTableData = () => {
   loading.value = true
   getTranslateDataApi({
     page: paginationData.currentPage,
     limit: paginationData.pageSize,
-    keyword: searchData.username || undefined,
+    keyword: searchData.keyword || undefined,
   })
     .then(({ data }) => {
       paginationData.total = data.total
-      translateData.value = data.list
+      translateData.value = data.data
     })
     .catch(() => {
       translateData.value = []
@@ -90,7 +89,7 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
           <el-table-column prop="status" label="任务状态" align="center">
             <template #default="scope">
               <el-tag v-if="scope.row.status === 'none'" type="primary" effect="plain">未完成</el-tag>
-              <el-tag v-if="scope.row.status === 'process'" type="warning" effect="plain">翻译中</el-tag>
+              <el-tag v-else-if="scope.row.status === 'process'" type="warning" effect="plain">翻译中</el-tag>
               <el-tag v-else type="success" effect="plain">已完成</el-tag>
             </template>
           </el-table-column>
@@ -98,7 +97,7 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
           <el-table-column prop="end_at" label="完成用时" align="center" />
           <el-table-column fixed="right" label="操作" width="150" align="center">
             <template #default="scope">
-              <el-button type="primary" text bg size="small" @click="handleDownload(scope.row)">下载</el-button>
+              <el-link :href="BASE_URL+scope.row.target_filepath">下载</el-link>
               <el-button type="danger" text bg size="small" @click="handleDelete(scope.row)">删除</el-button>
             </template>
           </el-table-column>

@@ -10,3 +10,10 @@ export function getTranslateDataApi(params: Translate.GetTranslateRequestData) {
     params
   })
 }
+
+export function deleteTranslateDataApi(id:int){
+  return request<Translate.TranslateNoResponseData>({
+    url:`/translate/${id}`,
+    method:'delete',
+  })
+}

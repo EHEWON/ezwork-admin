@@ -23,3 +23,5 @@ export type GetTranslateResponseData = ApiResponseData<{
   data: GetTranslateData[]
   total: number
 }>
+
+export type TranslateNoResponseData=ApiResponseData<[]>

@@ -94,7 +94,7 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
             </template>
           </el-table-column>
           <el-table-column prop="start_at" label="任务开始时间" align="center" />
-          <el-table-column prop="end_at" label="完成用时" align="center" />
+          <el-table-column prop="spend_time" label="完成用时" align="center" />
           <el-table-column fixed="right" label="操作" width="150" align="center">
             <template #default="scope">
               <el-link :href="BASE_URL+scope.row.target_filepath">下载</el-link>

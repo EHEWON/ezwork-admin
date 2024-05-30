@@ -97,7 +97,7 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
           <el-table-column prop="spend_time" label="完成用时" align="center" />
           <el-table-column fixed="right" label="操作" width="150" align="center">
             <template #default="scope">
-              <el-link :href="BASE_URL+scope.row.target_filepath">下载</el-link>
+              <el-link v-if="scope.row.target_filepath" :href="BASE_URL+scope.row.target_filepath">下载</el-link>
               <el-button type="danger" text bg size="small" @click="handleDelete(scope.row)">删除</el-button>
             </template>
           </el-table-column>

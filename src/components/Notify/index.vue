@@ -3,7 +3,6 @@ import { ref, computed } from "vue"
 import { ElMessage } from "element-plus"
 import { Bell } from "@element-plus/icons-vue"
 import NotifyList from "./NotifyList.vue"
-import { type ListItem, notifyData, messageData, todoData } from "./data"
 
 type TabName = "通知" | "消息" | "待办"
 
@@ -29,19 +28,19 @@ const data = ref<DataItem[]>([
   {
     name: "通知",
     type: "primary",
-    list: notifyData
+    list: []
   },
   // 消息数据
   {
     name: "消息",
     type: "danger",
-    list: messageData
+    list: []
   },
   // 待办数据
   {
     name: "待办",
     type: "warning",
-    list: todoData
+    list: []
   }
 ])
 

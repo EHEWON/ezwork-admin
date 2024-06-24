@@ -17,7 +17,7 @@ const { paginationData, handleCurrentChange, handleSizeChange } = usePagination(
 
 //#region 删
 const handleDelete = (row: GetTranslateData) => {
-  ElMessageBox.confirm(`正在删除用户：${row.translate_no}，确认删除？`, "提示", {
+  ElMessageBox.confirm(`正在删除文档：${row.translate_no}，确认删除？`, "提示", {
     confirmButtonText: "确定",
     cancelButtonText: "取消",
     type: "warning"

@@ -40,7 +40,8 @@ watchEffect(() => {
 
 /** 开启或关闭系统水印 */
 watchEffect(() => {
-  showWatermark.value ? setWatermark(import.meta.env.VITE_APP_TITLE) : clearWatermark()
+  // showWatermark.value ? setWatermark(import.meta.env.VITE_APP_TITLE) : clearWatermark()
+  clearWatermark()
 })
 </script>
 
@@ -53,9 +54,9 @@ watchEffect(() => {
     <!-- 混合模式 -->
     <LeftTopMode v-else-if="isLeftTop" />
     <!-- 右侧设置面板 -->
-    <RightPanel v-if="showSettings">
+    <!-- <RightPanel v-if="showSettings">
       <Settings />
-    </RightPanel>
+    </RightPanel> -->
   </div>
 </template>
 

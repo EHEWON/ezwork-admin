@@ -88,8 +88,9 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
           <el-table-column prop="origin_filename" label="文档名称" align="center" />
           <el-table-column prop="status" label="任务状态" align="center">
             <template #default="scope">
-              <el-tag v-if="scope.row.status === 'none'" type="primary" effect="plain">未完成</el-tag>
-              <el-tag v-else-if="scope.row.status === 'process'" type="warning" effect="plain">翻译中</el-tag>
+              <el-tag v-if="scope.row.status == 'none'" type="primary" effect="plain">未完成</el-tag>
+              <el-tag v-else-if="scope.row.status == 'process'" type="warning" effect="plain">翻译中</el-tag>
+              <el-tag v-else-if="scope.row.status == 'failed'" type="danger" effect="plain">翻译失败</el-tag>
               <el-tag v-else type="success" effect="plain">已完成</el-tag>
             </template>
           </el-table-column>

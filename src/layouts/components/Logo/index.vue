@@ -40,7 +40,6 @@ const { isLeft, isTop } = useLayoutMode()
     display: none;
   }
   .layout-logo-text {
-    height: 100%;
     vertical-align: middle;
   }
 }

@@ -98,6 +98,7 @@ const handleSearch = () => {
 }
 const resetSearch = () => {
   searchFormRef.value?.resetFields()
+  // searchData.keyword=''
   handleSearch()
 }
 //#endregion

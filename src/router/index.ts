@@ -71,7 +71,7 @@ export const constantRoutes: RouteRecordRaw[] = [
         name: "customer",
         meta: {
           title: "用户管理",
-          svgIcon: "dashboard",
+          elIcon: "user",
           affix: true
         }
       }
@@ -87,7 +87,38 @@ export const constantRoutes: RouteRecordRaw[] = [
         name: "translate_list",
         meta: {
           title: "翻译任务",
-          svgIcon: "dashboard",
+          elIcon: "tickets",
+          affix: true
+        }
+      }
+    ]
+  },
+  {
+    path: "/setting",
+    component: Layouts,
+    meta:{
+      title:"系统设置",
+      elIcon: "setting",
+      affix: true
+    },
+    children: [
+      {
+        path: "api",
+        component: () => import("@/views/setting/api.vue"),
+        name: "setting_api",
+        meta: {
+          title: "API设置",
+          elIcon: "key",
+          affix: true
+        }
+      },
+      {
+        path: "other",
+        component: () => import("@/views/setting/other.vue"),
+        name: "setting_other",
+        meta: {
+          title: "其他设置",
+          elIcon: "tools",
           affix: true
         }
       }

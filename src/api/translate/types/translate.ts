@@ -8,7 +8,7 @@ export interface GetTranslateRequestData {
 }
 
 export interface GetTranslateData {
-  id: number,
+  id: number
   translate_no: string
   created_at: string
   origin_filename: string

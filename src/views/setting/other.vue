@@ -14,7 +14,7 @@ const setting = ref({
     threads: "",
 })
 
-const settingForm=ref()
+const settingForm=ref<FormInstance | null>(null)
 
 const rules={
     prompt: [
@@ -32,8 +32,8 @@ onMounted(()=>{
     })
 })
 
-function onSubmit(settingForm){
-    settingForm.validate((valid,messages)=>{
+function onSubmit(settingForm:FormInstance | null){
+    settingForm?.validate((valid,messages)=>{
         if(valid){
             setOtherSettingData(setting.value).then((data)=>{
                 if(data.code==0){

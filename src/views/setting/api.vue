@@ -17,8 +17,8 @@ const setting = ref({
     default_backup: "",
 })
 
-const models=ref([])
-const settingForm=ref()
+const models=ref<string[]>([])
+const settingForm=ref<FormInstance | null>(null)
 
 const rules={
     api_url: [
@@ -33,14 +33,16 @@ const rules={
 }
 
 onMounted(()=>{
+
     getApiSettingData().then(data=>{
         setting.value=data.data
-        models.value=data.data.models.split(",").filter(item=>item!='')
+        let arr:string[]=data.data.models.split(",")
+        models.value=arr.filter(item=>item!='')
     })
 })
 
 function changeModel(){
-    let arr=setting.value.models.split(",")
+    let arr:string[]=setting.value.models.split(",")
     models.value=arr.filter(item=>item!='')
     if(arr.indexOf(setting.value.default_model)==-1){
         setting.value.default_model=""
@@ -50,8 +52,8 @@ function changeModel(){
     }
 }
 
-function onSubmit(settingForm){
-    settingForm.validate((valid,messages) => {
+function onSubmit(settingForm:FormInstance | null){
+    settingForm?.validate((valid,messages) => {
         console.log(valid)
         console.log(messages)
         if(valid){

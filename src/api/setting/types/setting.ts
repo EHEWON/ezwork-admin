@@ -1,24 +1,20 @@
 
 export interface ApiSetting {
-  api_url: stirng,
-  api_key: string
-  models: string
-  default_model: string
+  api_url: string,
+  api_key: string,
+  models: string,
+  default_model: string,
   default_backup: string
 }
 
-export type GetApiSettingResponseData = ApiResponseData<{
-  data: ApiSetting
-}>
+export type GetApiSettingResponseData = ApiResponseData<ApiSetting>
 
 
 export interface OtherSetting {
-  prompt: stirng,
+  prompt: string,
   threads: string
 }
 
-export type GetOtherSettingResponseData = ApiResponseData<{
-  data: OtherSetting
-}>
+export type GetOtherSettingResponseData = ApiResponseData<OtherSetting>
 
 export type SettingNoResponseData=ApiResponseData<[]>

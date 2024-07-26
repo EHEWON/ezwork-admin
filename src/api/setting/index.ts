@@ -11,7 +11,7 @@ export function getApiSettingData() {
 }
 
 /** 设置 */
-export function setApiSettingData(data:Setting.GetApiSettingResponseData) {
+export function setApiSettingData(data:Setting.ApiSetting) {
   return request<Setting.SettingNoResponseData>({
     url: `setting/api`,
     method: "post",
@@ -28,7 +28,7 @@ export function getOtherSettingData() {
 }
 
 /** 设置 */
-export function setOtherSettingData(data:Setting.GetOtherSettingResponseData) {
+export function setOtherSettingData(data:Setting.OtherSetting) {
   return request<Setting.SettingNoResponseData>({
     url: `setting/other`,
     method: "post",

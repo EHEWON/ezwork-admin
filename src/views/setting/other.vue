@@ -33,6 +33,7 @@ onMounted(()=>{
 })
 
 function onSubmit(settingForm:FormInstance | null){
+    console.log(setting.value)
     settingForm?.validate((valid,messages)=>{
         console.log(valid)
         console.log(messages)

@@ -34,12 +34,19 @@ onMounted(()=>{
 
 function onSubmit(settingForm:FormInstance | null){
     console.log(setting.value)
+     console.log({
+        prompt:setting.value.prompt,
+        threads:setting.value.threads
+    })
     settingForm?.validate((valid,messages)=>{
         console.log(valid)
         console.log(messages)
         console.log(setting.value)
         if(valid){
-            setOtherSettingData(setting.value).then((data)=>{
+            setOtherSettingData({
+                prompt:setting.value.prompt,
+                threads:setting.value.threads
+            }).then((data)=>{
                 if(data.code==0){
                     ElMessage.success("保存成功")
                 }else{

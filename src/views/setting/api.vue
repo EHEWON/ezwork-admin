@@ -57,11 +57,19 @@ function changeModel(){
 }
 
 function onSubmit(settingForm:FormInstance | null){
+    console.log(setting.value)
+   
     settingForm?.validate((valid,messages) => {
         console.log(valid)
         console.log(messages)
         if(valid){
-            setApiSettingData(setting.value).then((data)=>{
+            setApiSettingData({
+                api_url:setting.value.api_url,
+                api_key:setting.value.api_key,
+                models:setting.value.models,
+                default_model:setting.value.default_model,
+                default_backup:setting.value.default_backup
+            }).then((data)=>{
                 if(data.code==0){
                     ElMessage.success("保存成功")
                 }else{

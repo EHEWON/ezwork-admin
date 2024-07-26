@@ -34,6 +34,9 @@ onMounted(()=>{
 
 function onSubmit(settingForm:FormInstance | null){
     settingForm?.validate((valid,messages)=>{
+        console.log(valid)
+        console.log(messages)
+        console.log(setting.value)
         if(valid){
             setOtherSettingData(setting.value).then((data)=>{
                 if(data.code==0){

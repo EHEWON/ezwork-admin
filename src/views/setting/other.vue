@@ -55,6 +55,7 @@ function onSubmit(settingForm:FormInstance | null){
                         type:"error",
                     })
                 })
+                break
             }
         }
     })

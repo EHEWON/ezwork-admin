@@ -35,13 +35,17 @@ const rules={
 onMounted(()=>{
 
     getApiSettingData().then(data=>{
-        setting.value=data.data
-        let arr:string[]=data.data.models.split(",")
-        models.value=arr.filter(item=>item!='')
+        if(data.data){
+            setting.value=data.data
+            let arr:string[]=data.data.models.split(",")
+            models.value=arr.filter(item=>item!='')
+        }
     })
 })
 
 function changeModel(){
+    if(!setting.value.models)
+        return
     let arr:string[]=setting.value.models.split(",")
     models.value=arr.filter(item=>item!='')
     if(arr.indexOf(setting.value.default_model)==-1){

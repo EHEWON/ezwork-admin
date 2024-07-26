@@ -106,12 +106,12 @@ function onSubmit(settingForm:FormInstance | null){
             <el-input type="textarea" :rows="3" v-model="setting.models" @blur="changeModel" placeholder="请至少输入1个模型，多个模型用,隔开" />
         </el-form-item>
         <el-form-item label="默认模型">
-          <el-select v-model="setting.default_model" placeholder="未选择默认模型将采用配置中的第1个">
+          <el-select v-model="setting.default_model" placeholder="未选择默认模型将采用配置中的第1个" clearable>
             <el-option v-for="model in models" :label="model" :value="model" />
           </el-select>
         </el-form-item>
         <el-form-item label="默认备用模型">
-          <el-select v-model="setting.default_backup" placeholder="未选择默认备用模型将采用配置中的第1个">
+          <el-select v-model="setting.default_backup" placeholder="未选择默认备用模型将采用配置中的第1个" clearable>
             <el-option v-for="model in models" :disabled="setting.default_model==model ? true :false" :label="model" :value="model" />
           </el-select>
         </el-form-item>

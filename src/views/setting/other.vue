@@ -36,7 +36,8 @@ function onSubmit(settingForm:FormInstance | null){
     console.log(setting.value)
      console.log({
         prompt:setting.value.prompt,
-        threads:setting.value.threads
+        threads:setting.value.threads,
+        email_limit:setting.value.email_limit
     })
     settingForm?.validate((valid,messages)=>{
         console.log(valid)
@@ -45,7 +46,8 @@ function onSubmit(settingForm:FormInstance | null){
         if(valid){
             setOtherSettingData({
                 prompt:setting.value.prompt,
-                threads:setting.value.threads
+                threads:setting.value.threads,
+                email_limit:setting.value.email_limit,
             }).then((data)=>{
                 if(data.code==0){
                     ElMessage.success("保存成功")
@@ -78,6 +80,9 @@ function onSubmit(settingForm:FormInstance | null){
         </el-form-item>
         <el-form-item label="默认线程数" required prop="threads">
             <el-input v-model="setting.threads" />
+        </el-form-item>
+        <el-form-item label="限定注册邮箱后缀" required prop="email_limit">
+            <el-input v-model="setting.email_limit" placeholder="多个用逗号隔开,完全匹配域名" />
         </el-form-item>
         <el-form-item class="setting-btns">
           <el-button type="primary" @click="onSubmit(settingForm)">保存</el-button>

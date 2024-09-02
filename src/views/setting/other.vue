@@ -12,6 +12,7 @@ defineOptions({
 const setting = ref({
     prompt: "",
     threads: "",
+    email_limit: "",
 })
 
 const settingForm=ref<FormInstance | null>(null)

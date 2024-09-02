@@ -12,7 +12,8 @@ export type GetApiSettingResponseData = ApiResponseData<ApiSetting>
 
 export interface OtherSetting {
   prompt: string,
-  threads: string
+  threads: string,
+  email_limit: string,
 }
 
 export type GetOtherSettingResponseData = ApiResponseData<OtherSetting>

@@ -81,7 +81,7 @@ function onSubmit(settingForm:FormInstance | null){
         <el-form-item label="默认线程数" required prop="threads">
             <el-input v-model="setting.threads" />
         </el-form-item>
-        <el-form-item label="限定注册邮箱后缀" required prop="email_limit">
+        <el-form-item label="限定注册邮箱后缀" prop="email_limit">
             <el-input v-model="setting.email_limit" placeholder="多个用逗号隔开,完全匹配域名" />
         </el-form-item>
         <el-form-item class="setting-btns">

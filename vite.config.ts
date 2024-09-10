@@ -53,7 +53,6 @@ export default ({ mode }: ConfigEnv): UserConfigExport => {
       reportCompressedSize: false,
       /** 打包后静态资源目录 */
       assetsDir: "static",
-      publicPath: mode === 'demo' ? '/ezwork-admin/' : '/',
       rollupOptions: {
         output: {
           /**

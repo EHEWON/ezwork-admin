@@ -1,35 +1,58 @@
-name: Build And Deploy v3-admin-vite
+name: Deploy to GitHub Pages
 
 on:
   push:
-    branches:
-      - main
+    tags:
+      - 'v*'
 
 jobs:
-  build-and-deploy:
+  build:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout
+      - name: Checkout code
         uses: actions/checkout@v2
-        with:
-          persist-credentials: false
 
-      - name: Setup Node.js 20.10.0
-        uses: actions/setup-node@master
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
         with:
-          node-version: 20.10.0
+          node-version: '20'  # 指定 Node.js 版本
 
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v2
+      - name: Install dependencies
+        run: yarn install
+
+      - name: Print environment variables
+        run: |
+          echo "API URL: $VITE_API_URL"
+
+      - name: Build the project
+        run: yarn build:prod
+
+      - name: Extract tag
+        id: tag
+        run: echo "::set-output name=tag::${GITHUB_REF#refs/tags/}"
+
+      - name: Create a ZIP file
+        run: |
+          zip -r release.zip ./dist
+
+      - name: Create Release
+        id: create_release
+        uses: softprops/action-gh-release@v1
         with:
-          version: 8.11.0
+          tag_name: ${{ steps.tag.outputs.tag }}  # 这里可以使用动态版本号
+          release_name: Release ${{ steps.tag.outputs.tag }}
+          body: |
+            This is the release of version ${{ steps.tag.outputs.tag }}.
+          files: release.zip  # 这里可以根据需要调整路径
+        env:
+          GITHUB_TOKEN: ${{ secrets.DEPLOY_TOKEN }}
+        # 将 dist 文件夹中的文件附加到 Release
 
-      - name: Build
-        run: pnpm install && pnpm build:prod
-
-      - name: Deploy
-        uses: JamesIves/github-pages-deploy-action@releases/v3
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
         with:
-          ACCESS_TOKEN: ${{ secrets.V3_ADMIN_VITE }}
-          BRANCH: gh-pages
-          FOLDER: dist
+          github_token: ${{ secrets.DEPLOY_TOKEN }}
+          publish_dir: ./dist  # 构建输出目录
+
+

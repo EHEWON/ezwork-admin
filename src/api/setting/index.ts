@@ -36,3 +36,20 @@ export function setOtherSettingData(data:Setting.OtherSetting) {
   })
 }
 
+/** 列表 */
+export function getSiteSettingData() {
+  return request<Setting.GetSiteSettingResponseData>({
+    url: `setting/site`,
+    method: "get",
+  })
+}
+
+/** 设置 */
+export function setSiteSettingData(data:Setting.SiteSetting) {
+  return request<Setting.SettingNoResponseData>({
+    url: `setting/site`,
+    method: "post",
+    data
+  })
+}
+

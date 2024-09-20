@@ -18,4 +18,11 @@ export interface OtherSetting {
 
 export type GetOtherSettingResponseData = ApiResponseData<OtherSetting>
 
+
+export interface SiteSetting {
+  version: string,
+}
+
+export type GetSiteSettingResponseData = ApiResponseData<SiteSetting>
+
 export type SettingNoResponseData=ApiResponseData<[]>

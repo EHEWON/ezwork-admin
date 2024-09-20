@@ -121,6 +121,16 @@ export const constantRoutes: RouteRecordRaw[] = [
           elIcon: "tools",
           affix: true
         }
+      },
+      {
+        path: "site",
+        component: () => import("@/views/setting/site.vue"),
+        name: "setting_site",
+        meta: {
+          title: "站点设置",
+          elIcon: "tools",
+          affix: true
+        }
       }
     ]
   }

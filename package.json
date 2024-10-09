@@ -16,6 +16,7 @@
     "dev": "vite",
     "build:stage": "vue-tsc --noEmit && vite build --mode staging",
     "build:demo": "vue-tsc --noEmit && vite build --mode demo",
+    "build:community": "vue-tsc --noEmit && vite build --mode community",
     "build:prod": "vue-tsc --noEmit && vite build",
     "preview:stage": "pnpm build:stage && vite preview",
     "preview:prod": "pnpm build:prod && vite preview",

@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { reactive, ref, watch } from "vue"
-import { getTranslateDataApi,deleteTranslateDataApi } from "@/api/translate"
+import { getTranslateDataApi,deleteTranslateDataApi, deleteMoreTranslateDataApi, downloadMoreTranslateDataApi } from "@/api/translate"
 import { type GetTranslateData } from "@/api/translate/types/translate"
 import { type FormInstance, type FormRules, ElMessage, ElMessageBox } from "element-plus"
 import { Search, Refresh, CirclePlus, Delete, Download, RefreshRight } from "@element-plus/icons-vue"
@@ -27,6 +27,41 @@ const handleDelete = (row: GetTranslateData) => {
       getTableData()
     })
   })
+}
+
+//获取选择项
+const selectedItems = ref<number[]>([])
+const handleSelectionChange = (selection: any[]) => {
+  selectedItems.value =  selection.map(item => item.id)
+  console.log(selectedItems.value);
+}
+
+//#region 批量删除
+const handleMoreDelete = () => {
+  ElMessageBox.confirm(`正在批量删除选中文档，确认删除？`, "提示", {
+    confirmButtonText: "确定",
+    cancelButtonText: "取消",
+    type: "warning"
+  }).then(() => {
+    deleteMoreTranslateDataApi({ids:selectedItems.value}).then(() => {
+      ElMessage.success("删除成功")
+      getTableData()
+    })
+  })
+}
+
+//#region 批量下载
+const handleMoreDownload = () => {
+  downloadMoreTranslateDataApi({ids:selectedItems.value})
+    .then(({ data }) => {
+      if (data && data.trim() !== '') {
+        // 如果 data 存在且不为空字符串，则跳转到下载链接
+        window.location.href = BASE_URL+ data;
+      }
+    })
+    .catch((error) => {
+      ElMessage.error('下载失败，请稍后重试');
+    });
 }
 //#endregion
 
@@ -77,13 +112,15 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
         <el-form-item>
           <el-button type="primary" :icon="Search" @click="handleSearch">查询</el-button>
           <el-button :icon="Refresh" @click="resetSearch">重置</el-button>
+          <el-button :icon="Delete" @click="handleMoreDelete">删除</el-button>
+          <el-button :icon="Download" @click="handleMoreDownload">下载</el-button>
         </el-form-item>
       </el-form>
     </el-card>
     <el-card v-loading="loading" shadow="never">
       <div class="table-wrapper">
-        <el-table :data="translateData">
-          <!-- <el-table-column type="selection" width="50" align="center" /> -->
+        <el-table :data="translateData" @selection-change="handleSelectionChange">
+          <el-table-column type="selection" width="50" align="center" />
           <el-table-column prop="customer_no" label="所属用户ID" align="center" />
           <el-table-column prop="origin_filename" label="文档名称" align="center" />
           <el-table-column prop="status" label="任务状态" align="center">

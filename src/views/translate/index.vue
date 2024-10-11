@@ -54,7 +54,7 @@ const handleMoreDelete = () => {
 const handleMoreDownload = () => {
   downloadMoreTranslateDataApi({ids:selectedItems.value})
     .then(({ data }) => {
-      if (data && data.trim() !== '') {
+      if (data) {
         // 如果 data 存在且不为空字符串，则跳转到下载链接
         window.location.href = BASE_URL+ data;
       }

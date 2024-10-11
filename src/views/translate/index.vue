@@ -8,7 +8,7 @@ import {
 } from "@/api/translate"
 import { type GetTranslateData } from "@/api/translate/types/translate"
 import { type FormInstance, type FormRules, ElMessage, ElMessageBox } from "element-plus"
-import { Search, Refresh, CirclePlus, Delete, Download, RefreshRight } from "@element-plus/icons-vue"
+import { Search, Refresh, CirclePlus, Download, Delete, RefreshRight } from "@element-plus/icons-vue"
 import { usePagination } from "@/hooks/usePagination"
 import { cloneDeep } from "lodash-es"
 const BASE_URL = import.meta.env.VITE_BASE_API

@@ -1,12 +1,17 @@
 <script lang="ts" setup>
 import { reactive, ref, watch } from "vue"
-import { getTranslateDataApi,deleteTranslateDataApi, deleteMoreTranslateDataApi, downloadMoreTranslateDataApi } from "@/api/translate"
+import {
+  getTranslateDataApi,
+  deleteTranslateDataApi,
+  deleteMoreTranslateDataApi,
+  downloadMoreTranslateDataApi
+} from "@/api/translate"
 import { type GetTranslateData } from "@/api/translate/types/translate"
 import { type FormInstance, type FormRules, ElMessage, ElMessageBox } from "element-plus"
 import { Search, Refresh, CirclePlus, Delete, Download, RefreshRight } from "@element-plus/icons-vue"
 import { usePagination } from "@/hooks/usePagination"
 import { cloneDeep } from "lodash-es"
-const BASE_URL=import.meta.env.VITE_BASE_API
+const BASE_URL = import.meta.env.VITE_BASE_API
 defineOptions({
   // 命名当前组件
   name: "Translate"
@@ -32,18 +37,22 @@ const handleDelete = (row: GetTranslateData) => {
 //获取选择项
 const selectedItems = ref<number[]>([])
 const handleSelectionChange = (selection: any[]) => {
-  selectedItems.value =  selection.map(item => item.id)
-  console.log(selectedItems.value);
+  selectedItems.value = selection.map((item) => item.id)
+  console.log(selectedItems.value)
 }
 
 //#region 批量删除
 const handleMoreDelete = () => {
+  if (selectedItems.value.length === 0) {
+    ElMessage.warning("请选择要删除的文档")
+    return
+  }
   ElMessageBox.confirm(`正在批量删除选中文档，确认删除？`, "提示", {
     confirmButtonText: "确定",
     cancelButtonText: "取消",
     type: "warning"
   }).then(() => {
-    deleteMoreTranslateDataApi({ids:selectedItems.value}).then(() => {
+    deleteMoreTranslateDataApi({ ids: selectedItems.value }).then(() => {
       ElMessage.success("删除成功")
       getTableData()
     })
@@ -52,16 +61,20 @@ const handleMoreDelete = () => {
 
 //#region 批量下载
 const handleMoreDownload = () => {
-  downloadMoreTranslateDataApi({ids:selectedItems.value})
+  if (selectedItems.value.length === 0) {
+    ElMessage.warning("请选择要下载的文档")
+    return
+  }
+  downloadMoreTranslateDataApi({ ids: selectedItems.value })
     .then(({ data }) => {
       if (data) {
         // 如果 data 存在且不为空字符串，则跳转到下载链接
-        window.location.href = BASE_URL+ data;
+        window.location.href = BASE_URL + data
       }
     })
-    .catch((error) => {
-      ElMessage.error('下载失败，请稍后重试');
-    });
+    .catch(() => {
+      ElMessage.error("下载失败，请稍后重试")
+    })
 }
 //#endregion
 
@@ -69,14 +82,14 @@ const handleMoreDownload = () => {
 const translateData = ref<GetTranslateData[]>([])
 const searchFormRef = ref<FormInstance | null>(null)
 const searchData = reactive({
-  keyword: "",
+  keyword: ""
 })
 const getTableData = () => {
   loading.value = true
   getTranslateDataApi({
     page: paginationData.currentPage,
     limit: paginationData.pageSize,
-    keyword: searchData.keyword || undefined,
+    keyword: searchData.keyword || undefined
   })
     .then(({ data }) => {
       paginationData.total = data.total
@@ -119,13 +132,11 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
     </el-card>
     <el-card v-loading="loading" shadow="never">
       <div class="table-wrapper">
-
         <el-table :data="translateData" @selection-change="handleSelectionChange">
-
-          <el-table-column type="selection" width="50" align="center" />
-          <el-table-column prop="customer_no" label="所属用户ID" align="center" />
-          <el-table-column prop="origin_filename" label="文档名称" align="center" />
-          <el-table-column prop="status" label="任务状态" align="center">
+          <el-table-column type="selection" width="50" align="left" />
+          <el-table-column prop="customer_no" label="所属用户ID" align="left" />
+          <el-table-column prop="origin_filename" label="文档名称" align="left" />
+          <el-table-column prop="status" label="任务状态" align="left">
             <template #default="scope">
               <el-tag v-if="scope.row.status == 'none'" type="primary" effect="plain">未完成</el-tag>
               <el-tag v-else-if="scope.row.status == 'process'" type="warning" effect="plain">翻译中</el-tag>

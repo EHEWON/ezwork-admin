@@ -119,7 +119,9 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
     </el-card>
     <el-card v-loading="loading" shadow="never">
       <div class="table-wrapper">
+
         <el-table :data="translateData" @selection-change="handleSelectionChange">
+
           <el-table-column type="selection" width="50" align="center" />
           <el-table-column prop="customer_no" label="所属用户ID" align="center" />
           <el-table-column prop="origin_filename" label="文档名称" align="center" />

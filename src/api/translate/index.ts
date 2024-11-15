@@ -17,3 +17,19 @@ export function deleteTranslateDataApi(id:number){
     method:'delete',
   })
 }
+
+export function deleteMoreTranslateDataApi(params:object){
+  return request<Translate.TranslateNoResponseData>({
+    url:`/translates/delete`,
+    method:'post',
+    params
+  })
+}
+
+export function downloadMoreTranslateDataApi(params:object){
+  return request<Translate.TranslateNoResponseData>({
+    url:`/translates/download`,
+    method:'post',
+    params
+  })
+}

@@ -1,9 +1,10 @@
 /** 全局 CSS 变量，这种变量不仅可以在 CSS 和 SCSS 中使用，还可以导入到 JS 中使用 */
 
 :root {
+  --el-color-primary: #327dff;
   /** Body */
   --v3-body-text-color: var(--el-text-color-primary);
-  --v3-body-bg-color: var(--el-bg-color-page);
+  --v3-body-bg-color: #f6f8fa;
   /** Header 区域 = NavigationBar 组件 + TagsView 组件 */
   --v3-header-height: calc(
     var(--v3-navigationbar-height) + var(--v3-tagsview-height) + var(--v3-header-border-bottom-width)
@@ -16,15 +17,15 @@
   --v3-navigationbar-height: 50px;
   --v3-navigationbar-text-color: var(--el-text-color-regular);
   /** Sidebar 组件（左侧模式全部生效、顶部模式全部不生效、混合模式非颜色部分生效） */
-  --v3-sidebar-width: 220px;
+  --v3-sidebar-width: 210px;
   --v3-sidebar-hide-width: 58px;
   --v3-sidebar-border-right: 1px solid var(--el-fill-color);
-  --v3-sidebar-menu-item-height: 60px;
+  --v3-sidebar-menu-item-height: 40px;
   --v3-sidebar-menu-tip-line-bg-color: var(--el-color-primary);
-  --v3-sidebar-menu-bg-color: #001428;
-  --v3-sidebar-menu-hover-bg-color: #409eff10;
-  --v3-sidebar-menu-text-color: #cfd3dc;
-  --v3-sidebar-menu-active-text-color: #ffffff;
+  --v3-sidebar-menu-bg-color: #fff;
+  --v3-sidebar-menu-hover-bg-color: #edf1f8;
+  --v3-sidebar-menu-text-color: #535353;
+  --v3-sidebar-menu-active-text-color: #535353;
   /** TagsView 组件 */
   --v3-tagsview-height: 34px;
   --v3-tagsview-text-color: var(--el-text-color-regular);

@@ -7,7 +7,7 @@ import {
   downloadMoreTranslateDataApi
 } from "@/api/translate"
 import { type GetTranslateData } from "@/api/translate/types/translate"
-import { type FormInstance, type FormRules, ElMessage, ElMessageBox } from "element-plus"
+import { type FormInstance, ElMessage, ElMessageBox } from "element-plus"
 import { Search, Refresh, CirclePlus, Download, Delete, RefreshRight } from "@element-plus/icons-vue"
 import { usePagination } from "@/hooks/usePagination"
 import { cloneDeep } from "lodash-es"
@@ -22,7 +22,7 @@ const { paginationData, handleCurrentChange, handleSizeChange } = usePagination(
 
 //#region 删
 const handleDelete = (row: GetTranslateData) => {
-  ElMessageBox.confirm(`正在删除文档：${row.translate_no}，确认删除？`, "提示", {
+  ElMessageBox.confirm(`确认删除当前文档吗？`, "提示", {
     confirmButtonText: "确定",
     cancelButtonText: "取消",
     type: "warning"
@@ -117,9 +117,9 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
 
 <template>
   <div class="app-container">
-    <el-card v-loading="loading" shadow="never" class="search-wrapper">
+    <el-card v-loading="loading" shadow="never">
       <el-form ref="searchFormRef" :inline="true" :model="searchData">
-        <el-form-item prop="keyword" label="">
+        <el-form-item prop="keyword" label="" style="width: 320px; max-width: 100%">
           <el-input v-model="searchData.keyword" placeholder="输入查询" />
         </el-form-item>
         <el-form-item>
@@ -129,8 +129,6 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
           <el-button :icon="Download" @click="handleMoreDownload">下载</el-button>
         </el-form-item>
       </el-form>
-    </el-card>
-    <el-card v-loading="loading" shadow="never">
       <div class="table-wrapper">
         <el-table :data="translateData" @selection-change="handleSelectionChange">
           <el-table-column type="selection" width="50" align="left" />
@@ -144,12 +142,17 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
               <el-tag v-else type="success" effect="plain">已完成</el-tag>
             </template>
           </el-table-column>
-          <el-table-column prop="start_at" label="任务开始时间" align="center" />
-          <el-table-column prop="spend_time" label="完成用时" align="center" />
-          <el-table-column fixed="right" label="操作" width="150" align="center">
+          <el-table-column prop="start_at" label="任务开始时间" align="left" />
+          <el-table-column prop="spend_time" label="完成用时" align="left" />
+          <el-table-column fixed="right" label="操作" width="100" align="left">
             <template #default="scope">
-              <el-link v-if="scope.row.target_filepath" :href="BASE_URL+scope.row.target_filepath">下载</el-link>
-              <el-button type="danger" text bg size="small" @click="handleDelete(scope.row)">删除</el-button>
+              <el-link
+                style="color: #409eff; margin-right: 12px"
+                v-if="scope.row.target_filepath"
+                :href="BASE_URL + scope.row.target_filepath"
+                >下载</el-link
+              >
+              <el-button type="danger" text size="small" @click="handleDelete(scope.row)">删除</el-button>
             </template>
           </el-table-column>
         </el-table>

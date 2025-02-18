@@ -3,27 +3,21 @@ import { reactive, ref } from "vue"
 import { useRouter } from "vue-router"
 import { useUserStore } from "@/store/modules/user"
 import { type FormInstance, type FormRules } from "element-plus"
-import { User, Lock, Key, Picture, Loading } from "@element-plus/icons-vue"
-import { getLoginCodeApi } from "@/api/login"
+//import { getLoginCodeApi } from "@/api/login"
 import { type LoginRequestData } from "@/api/login/types/login"
-import ThemeSwitch from "@/components/ThemeSwitch/index.vue"
-import Owl from "./components/Owl.vue"
-import { useFocus } from "./hooks/useFocus"
 
 const router = useRouter()
-const { isFocus, handleBlur, handleFocus } = useFocus()
-
 /** 登录表单元素的引用 */
 const loginFormRef = ref<FormInstance | null>(null)
 
 /** 登录按钮 Loading */
 const loading = ref(false)
 /** 验证码图片 URL */
-const codeUrl = ref("")
+//const codeUrl = ref("")
 /** 登录表单数据 */
 const loginFormData: LoginRequestData = reactive({
   email: "",
-  password: "",
+  password: ""
   // code: ""
 })
 /** 登录表单校验规则 */
@@ -32,7 +26,7 @@ const loginFormRules: FormRules = {
   password: [
     { required: true, message: "请输入密码", trigger: "blur" },
     { min: 6, max: 16, message: "长度在 6 到 16 个字符", trigger: "blur" }
-  ],
+  ]
   // code: [{ required: true, message: "请输入验证码", trigger: "blur" }]
 }
 /** 登录逻辑 */
@@ -46,7 +40,6 @@ const handleLogin = () => {
           router.push({ path: "/" })
         })
         .catch(() => {
-          // createCode()
           loginFormData.password = ""
         })
         .finally(() => {
@@ -58,7 +51,7 @@ const handleLogin = () => {
   })
 }
 /** 创建验证码 */
-const createCode = () => {
+/*const createCode = () => {
   // 先清空验证码的输入
   // loginFormData.code = ""
   // 获取验证码
@@ -66,7 +59,7 @@ const createCode = () => {
   getLoginCodeApi().then((res) => {
     codeUrl.value = res.data
   })
-}
+}*/
 
 /** 初始化验证码 */
 // createCode()
@@ -74,35 +67,38 @@ const createCode = () => {
 
 <template>
   <div class="login-container">
-    <!-- <ThemeSwitch class="theme-switch" /> -->
-    <Owl :close-eyes="isFocus" />
+    <img class="login_bg" src="@/assets/login/login_bg.png" alt="" />
+
     <div class="login-card">
       <div class="title">
-        <img src="@/assets/layouts/logo-text-2.png" />
+        <img src="@/assets/login/login_title.png" />
       </div>
       <div class="content">
-        <el-form ref="loginFormRef" :model="loginFormData" :rules="loginFormRules" @keyup.enter="handleLogin">
-          <el-form-item prop="email">
+        <el-form
+          ref="loginFormRef"
+          label-position="top"
+          :hide-required-asterisk="true"
+          :model="loginFormData"
+          :rules="loginFormRules"
+          @keyup.enter="handleLogin"
+        >
+          <el-form-item label="用户名" prop="email">
             <el-input
               v-model.trim="loginFormData.email"
-              placeholder="用户名"
+              placeholder="请输入登录邮箱"
               type="text"
               tabindex="1"
-              :prefix-icon="User"
               size="large"
             />
           </el-form-item>
-          <el-form-item prop="password">
+          <el-form-item label="密码" prop="password">
             <el-input
               v-model.trim="loginFormData.password"
               placeholder="密码"
               type="password"
               tabindex="2"
-              :prefix-icon="Lock"
               size="large"
               show-password
-              @blur="handleBlur"
-              @focus="handleFocus"
             />
           </el-form-item>
           <!-- <el-form-item prop="code">
@@ -146,45 +142,47 @@ const createCode = () => {
   align-items: center;
   width: 100%;
   min-height: 100%;
-  .theme-switch {
-    position: fixed;
-    top: 5%;
-    right: 5%;
-    cursor: pointer;
+  .login_bg {
+    position: absolute;
+    width: 100%;
+    height: 100%;
   }
   .login-card {
-    width: 480px;
-    max-width: 90%;
-    border-radius: 20px;
-    box-shadow: 0 0 10px #dcdfe6;
-    background-color: var(--el-bg-color);
+    position: relative;
+    z-index: 99;
+    width: 432px;
+    max-width: 85%;
+    background: #ffffff;
+    box-shadow: 0px 2px 15px 0px rgba(0, 0, 0, 0.15);
+    border-radius: 16px;
     overflow: hidden;
+    padding: 36px;
     .title {
       display: flex;
-      justify-content: center;
+      justify-content: left;
       align-items: center;
-      height: 150px;
+      height: 48px;
+      margin-top: 12px;
       img {
         height: 100%;
       }
     }
     .content {
-      padding: 20px 50px 50px 50px;
-      :deep(.el-input-group__append) {
-        padding: 0;
-        overflow: hidden;
-        .el-image {
-          width: 100px;
-          height: 40px;
-          border-left: 0px;
-          user-select: none;
-          cursor: pointer;
-          text-align: center;
-        }
-      }
+      padding: 0;
       .el-button {
         width: 100%;
-        margin-top: 10px;
+        margin-top: 30px;
+        background: #045cf9;
+        margin-bottom: 30px;
+        font-size: 18px;
+      }
+      .el-form-item {
+        margin-top: 25px;
+        :deep(.el-form-item__label) {
+          font-weight: bold;
+          font-size: 16px;
+          color: #00334d;
+        }
       }
     }
   }

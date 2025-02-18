@@ -88,3 +88,6 @@ html.dark-blue {
 html.dark-blue .el-button {
   --el-button-disabled-text-color: rgba(255, 255, 255, 0.5);
 }
+.el-button.is-text {
+  padding: 0 !important;
+}

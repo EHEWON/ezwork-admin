@@ -1,6 +1,6 @@
 <template>
   <div class="app-container center">
-    <el-empty description="欢迎来到 editor 角色专属首页" />
+    <img src="@/assets/layouts/home.png" alt="" />
   </div>
 </template>
 
@@ -10,5 +10,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  img {
+    max-width: 90%;
+  }
 }
 </style>

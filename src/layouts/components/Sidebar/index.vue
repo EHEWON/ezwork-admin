@@ -116,6 +116,10 @@ const hiddenScrollbarVerticalBar = computed(() => {
   border: none;
   min-height: 100%;
   width: 100% !important;
+  padding: 0 14px;
+  &.el-menu--collapse {
+    padding: 0;
+  }
 }
 
 .el-menu--horizontal {
@@ -128,16 +132,32 @@ const hiddenScrollbarVerticalBar = computed(() => {
 :deep(.el-menu--horizontal .el-menu-item) {
   height: v-bind(sidebarMenuItemHeight);
   line-height: v-bind(sidebarMenuItemHeight);
-  &.is-active,
   &:hover {
+    background: #fff;
+    color: #327dff;
+  }
+  &.is-active {
     background-color: v-bind(sidebarMenuHoverBgColor);
+    border-radius: 8px;
+    &::before {
+      content: none;
+    }
   }
 }
-
+:deep(.el-menu-item) {
+  margin: 5px 0 !important;
+}
 :deep(.el-sub-menu) {
+  .el-menu-item {
+    margin: 0 !important;
+  }
   &.is-active {
     > .el-sub-menu__title {
-      color: v-bind(activeTextColor) !important;
+      background: v-bind(sidebarMenuHoverBgColor);
+    }
+    .is-active {
+      background: #fff;
+      color: #327dff;
     }
   }
 }

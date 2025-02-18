@@ -1,7 +1,6 @@
 import { request } from "@/utils/service"
 import type * as Translate from "./types/translate"
 
-
 /** 列表 */
 export function getTranslateDataApi(params: Translate.GetTranslateRequestData) {
   return request<Translate.GetTranslateResponseData>({
@@ -11,25 +10,25 @@ export function getTranslateDataApi(params: Translate.GetTranslateRequestData) {
   })
 }
 
-export function deleteTranslateDataApi(id:number){
+export function deleteTranslateDataApi(id: number) {
   return request<Translate.TranslateNoResponseData>({
-    url:`/translate/${id}`,
-    method:'delete',
+    url: `/translate/${id}`,
+    method: "delete"
   })
 }
 
-export function deleteMoreTranslateDataApi(params:object){
+export function deleteMoreTranslateDataApi(params: object) {
   return request<Translate.TranslateNoResponseData>({
-    url:`/translates/delete`,
-    method:'post',
+    url: `/translates/delete`,
+    method: "post",
     params
   })
 }
 
-export function downloadMoreTranslateDataApi(params:object){
+export function downloadMoreTranslateDataApi(params: object) {
   return request<Translate.TranslateNoResponseData>({
-    url:`/translates/download`,
-    method:'post',
+    url: `/translates/download`,
+    method: "post",
     params
   })
 }

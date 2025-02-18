@@ -1,8 +1,7 @@
 <script lang="ts" setup>
-import { reactive, ref, watch,onMounted } from "vue"
-import { type FormInstance, type FormRules, ElMessage, ElMessageBox } from "element-plus"
-import {getSiteSettingData,setSiteSettingData} from '@/api/setting'
-import { cloneDeep } from "lodash-es"
+import { ref, onMounted } from "vue"
+import { type FormInstance, ElMessage } from "element-plus"
+import { getSiteSettingData, setSiteSettingData } from "@/api/setting"
 
 defineOptions({
   // 命名当前组件
@@ -10,79 +9,79 @@ defineOptions({
 })
 
 const setting = ref({
-    version: "",
+  version: ""
 })
 
-const settingForm=ref<FormInstance | null>(null)
+const settingForm = ref<FormInstance | null>(null)
 
-const rules={
-    version: [
-      { required: true, message: '请选择版本', trigger: 'blur' },
-    ]
+const rules = {
+  version: [{ required: true, message: "请选择版本", trigger: "blur" }]
 }
 
-
-onMounted(()=>{
-    getSiteSettingData().then(data=>{
-        setting.value=data.data
-    })
+onMounted(() => {
+  getSiteSettingData().then((data) => {
+    setting.value = data.data
+  })
 })
 
-function onSubmit(settingForm:FormInstance | null){
-    console.log(setting.value)
-     console.log({
-        version:setting.value.version,
-    })
-    settingForm?.validate((valid,messages)=>{
-        if(valid){
-            setSiteSettingData({
-                version:setting.value.version,
-            }).then((data)=>{
-                if(data.code==0){
-                    ElMessage.success("保存成功")
-                }else{
-                    ElMessage.error(data.message)
-                }
-            }).catch((e)=>{
-                ElMessage.error(e)
-            })
-        }else{
-            for(var field in messages){
-                messages[field].forEach(message=>{
-                    ElMessage({
-                        message:message['message'],
-                        type:"error",
-                    })
-                })
-                break
-            }
-        }
-    })
+function onSubmit(settingForm: FormInstance | null) {
+  console.log(setting.value)
+  console.log({
+    version: setting.value.version
+  })
+  settingForm?.validate((valid, messages) => {
+    if (valid) {
+      setSiteSettingData({
+        version: setting.value.version
+      })
+        .then((data) => {
+          if (data.code == 0) {
+            ElMessage.success("保存成功")
+          } else {
+            ElMessage.error(data.message)
+          }
+        })
+        .catch((e) => {
+          ElMessage.error(e)
+        })
+    } else {
+      for (const field in messages) {
+        messages[field].forEach((message) => {
+          ElMessage({
+            message: message["message"],
+            type: "error"
+          })
+        })
+        break
+      }
+    }
+  })
 }
-
 </script>
 
 <template>
-    <el-form ref="settingForm" :model="setting" label-width="auto" style="padding:35px 20px" :rules="rules">
+  <div class="app-container">
+    <el-card shadow="never">
+      <el-form class="settingForm" ref="settingForm" :model="setting" label-position="top" :rules="rules">
         <el-form-item label="选择版本" required prop="version">
-            <el-select v-model="setting.version" placeholder="请选择服务商">
-                <el-option value="community" label="社区版"></el-option>
-                <el-option value="business" label="商业版"></el-option>
-            </el-select>
+          <el-select v-model="setting.version" placeholder="请选择服务商">
+            <el-option value="community" label="个人版" />
+            <el-option value="business" label="企业版" />
+          </el-select>
         </el-form-item>
         <el-form-item class="setting-btns">
-          <el-button type="primary" @click="onSubmit(settingForm)">保存</el-button>
+          <el-button style="width: 88px" type="primary" @click="onSubmit(settingForm)">保存</el-button>
         </el-form-item>
-    </el-form>
+      </el-form>
+    </el-card>
+  </div>
 </template>
 
-<style lang="scss">
-.setting-btns .el-form-item__content{
-    justify-content:center;
-}
-</style>
 <style lang="scss" scoped>
-.setting-btns .el-form-item__content{
-    justify-content:center;
+.settingForm {
+  :deep(.el-form-item__content) {
+    max-width: 480px;
+    justify-content: left;
+  }
 }
 </style>

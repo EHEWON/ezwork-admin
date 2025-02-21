@@ -3,9 +3,10 @@ import { reactive, ref, watch } from "vue"
 import { changeCustomerStatusApi, updateCustomerDataApi, getCustomerDataApi } from "@/api/customer"
 import { type CreateOrUpdateCustomerRequestData, type GetCustomerData } from "@/api/customer/types/customer"
 import { type FormInstance, type FormRules, ElMessage } from "element-plus"
-import { Search, Refresh } from "@element-plus/icons-vue"
+import { Search, Refresh, CirclePlus } from "@element-plus/icons-vue"
 import { usePagination } from "@/hooks/usePagination"
 import { cloneDeep } from "lodash-es"
+import Register from "./components/register.vue"
 
 defineOptions({
   // 命名当前组件
@@ -22,6 +23,7 @@ const DEFAULT_FORM_DATA: CreateOrUpdateCustomerRequestData = {
   password: "",
   level: "common"
 }
+
 const dialogVisible = ref<boolean>(false)
 const formRef = ref<FormInstance | null>(null)
 const formData = ref<CreateOrUpdateCustomerRequestData>(cloneDeep(DEFAULT_FORM_DATA))
@@ -97,11 +99,22 @@ const getCustomerData = () => {
 const handleSearch = () => {
   paginationData.currentPage === 1 ? getCustomerData() : (paginationData.currentPage = 1)
 }
+
 const resetSearch = () => {
   searchData.keyword = ""
   handleSearch()
 }
 //#endregion
+// 新增用户
+const registerVisible = ref<boolean>(false)
+const newUser = () => {
+  registerVisible.value = true
+}
+
+const registerSuccess = () => {
+  registerVisible.value = false
+  getCustomerData()
+}
 
 /** 监听分页参数的变化 */
 watch([() => paginationData.currentPage, () => paginationData.pageSize], getCustomerData, { immediate: true })
@@ -116,6 +129,9 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getCust
         <el-form-item>
           <el-button type="primary" :icon="Search" @click="handleSearch">查询</el-button>
           <el-button :icon="Refresh" @click="resetSearch">重置</el-button>
+        </el-form-item>
+        <el-form-item>
+          <el-button type="primary" :icon="CirclePlus" @click="newUser">新增用户</el-button>
         </el-form-item>
       </el-form>
 
@@ -194,6 +210,17 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getCust
         <el-button @click="dialogVisible = false">取消</el-button>
         <el-button type="primary" @click="handleCreateOrUpdate" :loading="loading">确认</el-button>
       </div>
+    </el-dialog>
+    <!-- 注册弹窗 -->
+    <el-dialog
+      v-model="registerVisible"
+      center
+      width="90%"
+      modal-class="custom_dialog login_dialog"
+      :show-close="false"
+    >
+      <template #header> 添加用户 </template>
+      <Register @success="registerSuccess" />
     </el-dialog>
   </div>
 </template>

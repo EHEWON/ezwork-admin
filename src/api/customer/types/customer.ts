@@ -15,7 +15,7 @@ export interface GetCustomerRequestData {
 }
 
 export interface GetCustomerData {
-  id: number,
+  id: number
   created_at: string
   email: string
   level: string
@@ -26,3 +26,9 @@ export type GetCustomerResponseData = ApiResponseData<{
   data: GetCustomerData[]
   total: number
 }>
+
+export interface RegisterData {
+  email: string
+  password?: string
+  level: string
+}
